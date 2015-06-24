@@ -28,11 +28,12 @@ public class AccountsController {
 	
 	@RequestMapping(value = "/accounts", method = RequestMethod.GET)
 	public String getAccounts(HttpServletRequest request, Model model) {
+		
 		logger.debug("Request: accounts.GET");
 		
-		HttpSession session = SessionUtils.getSession(request);
+		HttpSession session = request.getSession();
 		
-		if (!SessionUtils.isAuthorized(session)) {
+		if (session == null) {
 			logger.debug("User is not authorized. Redirect to login.jsp");
 			model.addAttribute("user", new User());
 			
@@ -49,9 +50,10 @@ public class AccountsController {
 	@RequestMapping(value = "/accounts", method = RequestMethod.POST)
 	public String addAccount(HttpServletRequest request, 
 			@ModelAttribute("newAccount") Account account, Model model) {
+		
 		logger.debug("Request: accounts.POST");
 		
-		HttpSession session = SessionUtils.getSession(request);
+		HttpSession session = request.getSession();
 		
 		User user = (User) session.getAttribute("user");
 		

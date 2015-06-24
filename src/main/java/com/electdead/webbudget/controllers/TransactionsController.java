@@ -47,9 +47,10 @@ public class TransactionsController {
 	
 	@RequestMapping(value = "/transactions", method = RequestMethod.GET)
 	public String getTransactions(HttpServletRequest request, Model model) {
-		HttpSession session = SessionUtils.getSession(request);
 		
-		if (!SessionUtils.isAuthorized(session)) {
+		HttpSession session = request.getSession();
+		
+		if (session == null) {
 			model.addAttribute("user", new User());
 			
 			return "redirect:/login";
@@ -82,7 +83,7 @@ public class TransactionsController {
 			) {
 		
 		try {
-			HttpSession session = SessionUtils.getSession(request);
+			HttpSession session = request.getSession();
 			Account account = SessionUtils.findAccountInSession(session, accountId);
 			Category category = SessionUtils.findCategoryInSession(session, categoryId);
 			
@@ -112,9 +113,10 @@ public class TransactionsController {
 	
 	@RequestMapping(value = "/transactions/delete", method = RequestMethod.GET)
 	public String deleteTransaction(HttpServletRequest request, @RequestParam("id") int transactionId) {
+		
 		Transaction transaction = transactionDao.deleteById(transactionId);
 		
-		HttpSession session = SessionUtils.getSession(request);
+		HttpSession session = request.getSession();
 		List<Transaction> transactions = SessionUtils.getTransactionsFromSession(session);
 		transactions.remove(transaction);
 		
@@ -122,20 +124,4 @@ public class TransactionsController {
 		
 		return "redirect:/transactions";
 	}
-	
-//	@RequestMapping(value = "/transactions/delete", method = RequestMethod.POST,
-//			produces = MediaType.APPLICATION_JSON_VALUE)
-//	@ResponseBody
-//	public List<Transaction> deleteTransaction(HttpServletRequest request, @RequestParam("id") String transactionId) {
-//		Integer id = Integer.parseInt(transactionId);
-//		Transaction transaction = transactionDao.deleteById(id);
-//		
-//		HttpSession session = SessionUtils.getSession(request);
-//		List<Transaction> transactions = SessionUtils.getTransactionsFromSession(session);
-//		transactions.remove(transaction);
-//		
-//		session.setAttribute("transactions", transactions);
-//		
-//		return transactions;
-//	}
 }
