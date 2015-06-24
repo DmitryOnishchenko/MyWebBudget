@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="5">
+	<Properties>
+    	<Property name="controllersLevel">INFO</Property>
+    </Properties>
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} %5p %c{1}:%M:%L - %m%n" />
+		</Console>
+	</Appenders>
+	
+	<Loggers>
+		<Logger name="com.electdead.webbudget.controllers.HomeController" level="${controllersLevel}" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="com.electdead.webbudget.controllers.LoginController" level="${controllersLevel}" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="com.electdead.webbudget.controllers.AccountsController" level="${controllersLevel}" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="com.electdead.webbudget.controllers.CategoriesController" level="${controllersLevel}" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="com.electdead.webbudget.controllers.SessionUtils" level="${controllersLevel}" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Root level="ERROR">
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+</Configuration>

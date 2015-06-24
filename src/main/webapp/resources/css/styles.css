@@ -1,0 +1,392 @@
+/*http://color.romanuke.com/tsvetovaya-palitra-1714/
+#724428 - темно-коричневый
+#73584b - коричневый
+#c59775 - светло-коричневый
+#efeae6 - светлый
+#85b7bc - бирюзовый
+*/
+
+/* ----------------------------- */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: url(../img/light_3.jpg) no-repeat center center fixed;
+    /*background-color: #efeae6;*/
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-family: 'Emoji Passthrough', Lato, appleLogo, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    color: #151515;
+    height: 50%;
+    width: 100%;
+}
+
+html {
+	/*18px*/
+	font-size: 1.40625vmax;
+	height: 100%;
+	/*min-height: 100%;*/
+}
+
+h1 {
+	/*28px*/
+	font-size: 1.555555rem;
+	display: inline;
+}
+
+h2 {
+	/*20px*/
+	font-size: 1.111111rem;
+	display: inline;
+	font-weight: normal;
+}
+
+h3 {
+	/*14px*/
+	font-size: 0.777777rem;
+	display: inline;
+	font-weight: normal;
+}
+
+/* ----------------------------- */
+.debug {
+	box-sizing:border-box;
+ 	-moz-box-sizing:border-box;
+ 	-webkit-box-sizing:border-box;
+	border: 1px solid red;
+}
+
+.borderInside {
+	box-sizing:border-box;
+ 	-moz-box-sizing:border-box;
+ 	-webkit-box-sizing:border-box;
+}
+
+/* ----------------------------- */
+
+.container {
+
+}
+
+.header {
+	width: 100vw;
+	text-align: center;
+	font-size: 4rem;
+	color: white;
+	padding-top: 2.9296875vh;
+	padding-bottom: 2.9296875vh;
+}
+
+.decorationNone {
+	text-decoration: none;
+}
+
+.maxWidth {
+	width: 100%;
+}
+
+.maxHeight {
+	height: 100%;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.mainBg {
+	background-color: #73584b;
+}
+
+.hoverBg {
+	background-color: #85b7bc;
+}
+
+.mainColor {
+	color: #151515;
+}
+
+.inputColor {
+	color: #545454;
+}
+
+.inline {
+	display: inline;
+}
+
+.inlineBlock {
+	display: inline-block;
+}
+
+.navMenuDiv {
+	margin-bottom: 1.953125vh;
+}
+
+.menuButton {
+	width: 10.9375vw;
+	padding: 0.9765625vh 1.953125vw;
+	color: white;
+	text-decoration: none;
+	text-align: center;
+	margin-top: 1px;
+	margin-bottom: 1px;
+}
+
+a.menuButton:hover {
+	background-color: #85b7bc;
+}
+
+.marginLeft1px {
+	margin-left: 1px;
+}
+
+.roundLeft {
+	border-radius: 25px 0 0 25px;
+	width: 12.5vw;
+}
+
+.roundRight {
+	border-radius: 0 25px 25px 0;
+	width: 12.5vw;
+}
+
+.roundAll {
+	border-radius: 25px 25px 25px 25px;
+}
+
+.noBorder {
+	border: 0px;
+}
+
+.accountsDiv {
+	width: 23.4375vmax;
+	min-width: 200px;
+	margin-left: 1.5625vw;
+}
+
+.addAccountButton, .showAddTransactionButton, .addCategoryButton {
+	font-size: 1rem;
+    text-decoration: none;
+    text-align: center;
+    width: 120px;
+    padding: 0.390625vmax 0.48828125vmax;
+    border-radius: 20px;
+    outline: none;
+}
+
+button.addAccountButton:hover, a.addAccountButton:hover, .showAddTransactionButton:hover,
+.addCategoryButton:hover {
+	background-color: #efeae6;
+}
+
+.vLine {
+	width: 20px;
+	border-left: 1px solid black;
+	margin-left: 1.5625vw;
+}
+
+.budgetDiv {
+	min-width: 23.4375vmax;
+	margin-left: 1.5625vw;
+}
+
+.input {
+    font-size: 18px;
+    width: 200px;
+    padding: 0.9765625vh 20px;
+    margin: 10px;
+}
+
+.inputSmall {
+	font-size: 18px;
+    width: 200px;
+    padding: 0.48828125vh 20px;
+    margin: 10px;
+}
+
+.input:focus, .inputSmall:focus {
+    outline: none;
+}
+
+.button {
+    font-size: 26px;
+    text-align: center;
+    color: white;
+    background-color: #73584b;
+    padding: 0.9765625vh 20px;
+    width: 260px;
+    margin-top: 20px;
+    text-decoration: none;
+}
+
+.button:hover {
+	background-color: #85b7bc;
+}
+
+.button:focus {
+    outline: none;
+}
+
+.loginDiv {
+    width: 260px;
+    margin-top: 14.6484375vh;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.error {
+	font-size: 16px;
+	text-align: center;
+}
+
+.textLeft {
+	text-align: left;
+}
+
+.registrationDiv {
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 3.90625vh;
+}
+
+.allAccountsDiv, .allCategoriesDiv {
+	width: 45.4375vw;
+	padding-left: 1.5625vw;
+}
+
+.addAccountDiv, .addCategoryDiv {
+	width: 45.4375vw;
+    visibility: hidden;
+}
+
+.addTransactionDiv {
+    display: inline-block;
+    float: left;
+    margin-left: 20px;
+    padding: 15px;
+    border: 3px solid #85b7bc;
+    /*border: 1px solid #151515;*/
+    border-radius: 20px 20px;
+}
+
+.showAddTransactionButton {
+    width: 200px;
+}
+
+#transactionInputDiv {
+    display: none;
+    padding: 10px 0px;
+}
+
+#dateInput {
+	padding: 0px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.typeButton {
+	width: 100%;
+	padding: 5px 10px;
+	background-color: #85b7bc;
+}
+
+#transactionInputDiv td {
+	min-width: 60px;
+	height: 30px;
+}
+
+.transactionInput {
+	font-size: 16px;
+    width: 260px;
+    border: 0px;
+    padding: 2px 10px;
+}
+
+.typeButton:focus, .transactionInput:focus {
+	outline: none;
+}
+
+.typeButton:hover {
+	background-color: #efeae6;
+}
+
+#transactionInputDiv textarea {
+	border-radius: 14px 14px 14px 14px;
+}
+
+#transactionInputDiv select {
+	width: 280px;
+}
+
+.addTransactionButton {
+	font-size: 1rem;
+	width: 100%;
+	height: 100%;
+}
+
+.addTransactionButton:hover {
+	background-color: #efeae6;
+}
+
+.addTransactionButton:focus {
+	outline: none;
+}
+
+#transactionInputDiv table tr {
+	height: 36px;
+}
+
+#transactionInputDiv input[type=text] {
+	width: 245px;
+}
+
+#sign {
+	width: 10px;
+	text-align: center;
+}
+
+#allTransactions {
+	display: inline-block;
+	padding-left: 20px;
+	padding-top: 15px;
+}
+
+#allTransactions table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+#allTransactions table tr td {
+	width: 160px;
+	text-align: left;
+	vertical-align: top;
+	/*height: 0px;*/
+}
+
+.separator {
+	border-bottom: 2px solid #efeae6;
+}
+
+.transactionRow {
+	display: inline-block;
+	padding-left: 20px;
+	padding-right: 5px;
+	padding-top: 10px;
+	padding-bottom: 5px;
+	border-radius: 10px 10px 10px 10px;
+	border: 1px solid #efeae6;
+}
+
+.transactionRow:hover {
+	background-color: rgba(197, 151, 117, 0.2);
+}
