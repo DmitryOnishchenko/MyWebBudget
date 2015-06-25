@@ -48,9 +48,9 @@ public class TransactionsController {
 	@RequestMapping(value = "/transactions", method = RequestMethod.GET)
 	public String getTransactions(HttpServletRequest request, Model model) {
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(true);
 		
-		if (session == null) {
+		if (!SessionUtils.isAuthorized(session)) {
 			model.addAttribute("user", new User());
 			
 			return "redirect:/login";
@@ -83,7 +83,7 @@ public class TransactionsController {
 			) {
 		
 		try {
-			HttpSession session = request.getSession();
+			HttpSession session = request.getSession(true);
 			Account account = SessionUtils.findAccountInSession(session, accountId);
 			Category category = SessionUtils.findCategoryInSession(session, categoryId);
 			
@@ -116,7 +116,7 @@ public class TransactionsController {
 		
 		Transaction transaction = transactionDao.deleteById(transactionId);
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(true);
 		List<Transaction> transactions = SessionUtils.getTransactionsFromSession(session);
 		transactions.remove(transaction);
 		

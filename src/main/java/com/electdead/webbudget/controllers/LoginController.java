@@ -28,9 +28,9 @@ public class LoginController {
 		
 		logger.debug("Request: login.GET");
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(true);
 		
-		if (session == null) {
+		if (!SessionUtils.isAuthorized(session)) {
 			logger.debug("User is not authorized. Return login.jsp");
 			
 			model.addAttribute("user", new User());
@@ -75,9 +75,9 @@ public class LoginController {
 		
 		logger.debug("Request: registration.GET");
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(true);
 		
-		if (session == null) {
+		if (!SessionUtils.isAuthorized(session)) {
 			logger.debug("User is not authorized. Return login.jsp");
 			
 			model.addAttribute("user", new User());
@@ -128,7 +128,7 @@ public class LoginController {
 		logger.debug("Request: logout.GET");
 		logger.debug("Invalidate session. Redirect to login.jsp");
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(true);
 		
 		if (session != null) {
 			session.invalidate();
@@ -155,6 +155,7 @@ public class LoginController {
 		}
 		
 		user.setUserId(existingUser.getUserId());
+		user.setEmail(existingUser.getEmail());
 		
 		logger.exit(true);
 		return true;

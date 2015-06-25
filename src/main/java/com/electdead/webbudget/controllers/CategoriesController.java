@@ -31,9 +31,9 @@ public class CategoriesController {
 		
 		logger.debug("Request: categories.GET");
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(true);
 		
-		if (session == null) {
+		if (!SessionUtils.isAuthorized(session)) {
 			logger.debug("User is not authorized. Redirect to login.jsp");
 			model.addAttribute("user", new User());
 			
@@ -53,7 +53,7 @@ public class CategoriesController {
 		
 		logger.debug("Request: categories.POST");
 		
-		HttpSession session = request.getSession();
+		HttpSession session = request.getSession(true);
 		
 		User user = (User) session.getAttribute("user");
 		
