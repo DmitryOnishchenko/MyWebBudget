@@ -1,5 +1,5 @@
 /target/*
 .settings
 .springBeans
-*.classpath
-*.project
+!*.classpath
+!*.project
