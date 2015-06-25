@@ -25,9 +25,10 @@ public class LoginController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String getLogin(HttpServletRequest request, Model model) {
+		
 		logger.debug("Request: login.GET");
 		
-		HttpSession session = SessionUtils.getSession(request);
+		HttpSession session = request.getSession(true);
 		
 		if (!SessionUtils.isAuthorized(session)) {
 			logger.debug("User is not authorized. Return login.jsp");
@@ -44,9 +45,8 @@ public class LoginController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(HttpServletRequest request, @ModelAttribute("user") User user, Model model) {
-		logger.debug("Request: login.POST");
 		
-		HttpSession session = SessionUtils.getSession(request);
+		logger.debug("Request: login.POST");
 		
 		logger.debug("Try login");
 		if (!tryLogin(user, model)) {
@@ -55,6 +55,8 @@ public class LoginController {
 			
 			return "login";
 		}
+		
+		HttpSession session = SessionUtils.getNewSession(request);
 		
 		session.setAttribute(SessionUtils.AUTH_ATTR_NAME, true);
 		session.setAttribute("user", user);
@@ -70,9 +72,10 @@ public class LoginController {
 	
 	@RequestMapping(value = "/registration", method = RequestMethod.GET) 
 	public String getRegistration(HttpServletRequest request, Model model) {
+		
 		logger.debug("Request: registration.GET");
 		
-		HttpSession session = SessionUtils.getSession(request);
+		HttpSession session = request.getSession(true);
 		
 		if (!SessionUtils.isAuthorized(session)) {
 			logger.debug("User is not authorized. Return login.jsp");
@@ -89,9 +92,8 @@ public class LoginController {
 	
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public String register(@ModelAttribute("user") User user, HttpServletRequest request, Model model) {
-		logger.debug("Request: registration.POST");
 		
-		HttpSession session = SessionUtils.getSession(request);
+		logger.debug("Request: registration.POST");
 		
 		if (logger.isDebugEnabled()) {
 			logger.debug(Joiner.on(' ').join("Try to find user:", user, "in DB"));			
@@ -105,6 +107,8 @@ public class LoginController {
 			
 			return "registration";
 		}
+		
+		HttpSession session = SessionUtils.getNewSession(request);
 		
 		userDao.create(user);
 		
@@ -120,10 +124,15 @@ public class LoginController {
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(HttpServletRequest request) {
-		logger.debug("Request: logout.GET");
 		
+		logger.debug("Request: logout.GET");
 		logger.debug("Invalidate session. Redirect to login.jsp");
-		SessionUtils.getSession(request).invalidate();
+		
+		HttpSession session = request.getSession(true);
+		
+		if (session != null) {
+			session.invalidate();
+		}
 		
 		return "redirect:/login";
 	}
@@ -146,6 +155,7 @@ public class LoginController {
 		}
 		
 		user.setUserId(existingUser.getUserId());
+		user.setEmail(existingUser.getEmail());
 		
 		logger.exit(true);
 		return true;

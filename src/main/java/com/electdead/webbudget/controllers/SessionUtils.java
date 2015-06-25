@@ -20,7 +20,7 @@ public abstract class SessionUtils {
 	
 	private static final Logger logger = LogManager.getLogger(SessionUtils.class.getName());
 	
-	public static HttpSession getSession(HttpServletRequest request) {
+	public static HttpSession getNewSession(HttpServletRequest request) {
 		logger.entry();
 		
 		HttpSession session = request.getSession(true);

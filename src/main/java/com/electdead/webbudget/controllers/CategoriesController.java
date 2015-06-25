@@ -28,9 +28,10 @@ public class CategoriesController {
 	
 	@RequestMapping(value = "/categories", method = RequestMethod.GET)
 	public String getCategories(HttpServletRequest request, Model model) {
+		
 		logger.debug("Request: categories.GET");
 		
-		HttpSession session = SessionUtils.getSession(request);
+		HttpSession session = request.getSession(true);
 		
 		if (!SessionUtils.isAuthorized(session)) {
 			logger.debug("User is not authorized. Redirect to login.jsp");
@@ -49,9 +50,10 @@ public class CategoriesController {
 	@RequestMapping(value = "/categories", method = RequestMethod.POST)
 	public String addCategory(HttpServletRequest request, 
 			@ModelAttribute("newCategory") Category category, Model model) {
+		
 		logger.debug("Request: categories.POST");
 		
-		HttpSession session = SessionUtils.getSession(request);
+		HttpSession session = request.getSession(true);
 		
 		User user = (User) session.getAttribute("user");
 		

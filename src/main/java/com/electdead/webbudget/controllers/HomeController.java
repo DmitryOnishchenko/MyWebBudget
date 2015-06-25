@@ -35,9 +35,10 @@ public class HomeController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String getHome(HttpServletRequest request, Model model) {
+		
 		logger.debug("Request: home.GET");
 		
-		HttpSession session = SessionUtils.getSession(request);
+		HttpSession session = request.getSession(true);
 		
 		if (!SessionUtils.isAuthorized(session)) {
 			logger.debug("User is not authorized. Redirect to login.jsp");
@@ -53,7 +54,7 @@ public class HomeController {
 			double totalBalance = 0;
 			
 			if (logger.isDebugEnabled()) {
-				logger.debug(Joiner.on(' ').join("Load accounts from DB for user:", user));
+				logger.debug(Joiner.on("").join("Load accounts from DB for user: ", user));
 			}
 			
 			accounts = accountDao.getAllByUser(user);
@@ -68,7 +69,7 @@ public class HomeController {
 		
 		if (categories == null) {
 			if (logger.isDebugEnabled()) {
-				logger.debug(Joiner.on(' ').join("Load categories from DB for user:", user));
+				logger.debug(Joiner.on("").join("Load categories from DB for user: ", user));
 			}
 			
 			categories = categoryDao.getAllByUser(user);
