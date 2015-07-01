@@ -109,6 +109,21 @@ public class TransactionsController {
 		List<Transaction> transactions = SessionUtils.getTransactionsFromSession(session);
 		transactions.remove(transaction);
 		
+		Account account = transaction.getAccount();
+		double currentMoney = account.getMoney();
+		double transactionAmount = transaction.getAmount();
+		
+		if (transactionAmount < 0) {
+			transactionAmount *= -1;
+		}
+		account.setMoney(currentMoney + transactionAmount);
+		
+		
+		accountDao.save(account);
+		
+		double currentBalance = (Double) session.getAttribute("totalBalance");
+		session.setAttribute("totalBalance", currentBalance + transactionAmount);
+		
 		session.setAttribute("transactions", transactions);
 		
 		return "redirect:/transactions";
