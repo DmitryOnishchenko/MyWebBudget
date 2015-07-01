@@ -40,8 +40,6 @@ public class TransactionsController {
 	@InitBinder
 	public void initBinder(WebDataBinder webDataBinder, HttpServletRequest request) {
 		
-		webDataBinder.setDisallowedFields(new String[] {"account", "category"});
-		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
 		webDataBinder.registerCustomEditor(Date.class, "date", new CustomDateEditor(
