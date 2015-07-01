@@ -38,11 +38,16 @@ public class TransactionsController {
 	private TransactionDAO transactionDao;
 	
 	@InitBinder
-	public void initBinder(WebDataBinder webDataBinder) {
+	public void initBinder(WebDataBinder webDataBinder, HttpServletRequest request) {
+		
+		webDataBinder.setDisallowedFields(new String[] {"account", "category"});
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);
-		webDataBinder.registerCustomEditor(Date.class, new CustomDateEditor(
+		webDataBinder.registerCustomEditor(Date.class, "date", new CustomDateEditor(
 				dateFormat, true));
+		webDataBinder.registerCustomEditor(Account.class, "account", new AccountEditor(request));
+		webDataBinder.registerCustomEditor(Category.class, "category", new CategoryEditor(request));
 	}
 	
 	@RequestMapping(value = "/transactions", method = RequestMethod.GET)
@@ -75,38 +80,21 @@ public class TransactionsController {
 	
 	@RequestMapping(value = "/transactions", method = RequestMethod.POST)
 	public String addTransaction(HttpServletRequest request,
-			@RequestParam("date") Date date,
-			@RequestParam("amount") String amount,
-			@RequestParam("accountId") int accountId,
-			@RequestParam("categoryId") int categoryId,
-			@RequestParam("comment") String comment
-			) {
+			@ModelAttribute("newTransaction") Transaction newTransaction) {
 		
-		try {
-			HttpSession session = request.getSession(true);
-			Account account = SessionUtils.findAccountInSession(session, accountId);
-			Category category = SessionUtils.findCategoryInSession(session, categoryId);
-			
-			Transaction newTransaction = new Transaction();
-			newTransaction.setDate(date);
-			newTransaction.setAmount(Double.parseDouble(amount));
-			newTransaction.setAccount(account);
-			newTransaction.setCategory(category);
-			newTransaction.setComment(comment);
-			
-			transactionDao.create(newTransaction);
-			List<Transaction> transactions = SessionUtils.getTransactionsFromSession(session);
-			transactions.add(newTransaction);
-			
-			double currentMoney = account.getMoney();
-			account.setMoney(currentMoney + Double.parseDouble(amount));
-			accountDao.save(account);
-			
-			double currentBalance = (Double) session.getAttribute("totalBalance");
-			session.setAttribute("totalBalance", currentBalance + newTransaction.getAmount());
-		} catch (Exception e) {
-			
-		}
+		HttpSession session = request.getSession(true);
+		
+		transactionDao.create(newTransaction);
+		List<Transaction> transactions = SessionUtils.getTransactionsFromSession(session);
+		transactions.add(newTransaction);
+		
+		Account account = newTransaction.getAccount();
+		double currentMoney = account.getMoney();
+		account.setMoney(currentMoney + newTransaction.getAmount());
+		accountDao.save(account);
+		
+		double currentBalance = (Double) session.getAttribute("totalBalance");
+		session.setAttribute("totalBalance", currentBalance + newTransaction.getAmount());
 		
 		return "transactions";
 	}
