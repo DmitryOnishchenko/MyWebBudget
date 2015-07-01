@@ -66,7 +66,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="4"><select class="transactionInput inputColor roundAll" name="categoryId">
+							<td colspan="4"><select class="transactionInput inputColor roundAll" name="category">
 								<c:forEach items="${categories}" var="category">
 									<option value="${category.categoryId}"><c:out value="${category.name}" /></option>
 								</c:forEach>
@@ -74,7 +74,7 @@
 						</tr>
 						<tr>
 							<td colspan="4">
-							<select class="transactionInput inputColor roundAll" name="accountId">
+							<select class="transactionInput inputColor roundAll" name="account">
 								<c:forEach items="${accounts}" var="account">
 									<option value="${account.accountId}"><c:out value="${account.name}" /></option>
 								</c:forEach>

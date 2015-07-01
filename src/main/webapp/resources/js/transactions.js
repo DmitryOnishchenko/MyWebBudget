@@ -10,6 +10,9 @@ $(document).ready(function() {
             month = '0' + month;
         }
         var day = today.getDate();
+        if (day < 10) {
+        	day = '0' + day;
+        }
         
         dateInput.value = year + '-' + month + '-' + day;
 

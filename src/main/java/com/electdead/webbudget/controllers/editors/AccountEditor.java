@@ -1,6 +1,12 @@
-package com.electdead.mywebbudget.controllers.editors;
+package com.electdead.webbudget.controllers.editors;
 
 import java.beans.PropertyEditorSupport;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import com.electdead.webbudget.controllers.SessionUtils;
+import com.electdead.webbudget.model.Account;
 
 public class AccountEditor extends PropertyEditorSupport {
     private HttpServletRequest request;
@@ -10,13 +16,16 @@ public class AccountEditor extends PropertyEditorSupport {
     }
     
     @Override
-    public void setAsText(String accountId) throws IllegalArgumentException {
-        int accountId = Integer.parseInt(accountId);
+    public void setAsText(String accountIdString) throws IllegalArgumentException {
+        int accountId = Integer.parseInt(accountIdString);
         HttpSession session = request.getSession(true);
         
-        Account account = SessionUtils.findAccountInSession(session, accountId);
-        
-        setValue(account);
+		try {
+			Account account = SessionUtils.findAccountInSession(session, accountId);
+			setValue(account);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
 }
