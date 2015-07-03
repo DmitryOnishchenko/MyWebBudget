@@ -111,13 +111,10 @@ public class TransactionsController {
 		
 		Account account = transaction.getAccount();
 		double currentMoney = account.getMoney();
-		double transactionAmount = transaction.getAmount();
+		double transactionAmount = transaction.getAmount() * -1;
+		double total = currentMoney + transactionAmount;
 		
-		if (transactionAmount < 0) {
-			transactionAmount *= -1;
-		}
-		account.setMoney(currentMoney + transactionAmount);
-		
+		account.setMoney(total);
 		
 		accountDao.save(account);
 		
