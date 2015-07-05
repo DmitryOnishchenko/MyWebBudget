@@ -7,6 +7,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -30,6 +32,7 @@ import com.electdead.webbudget.model.User;
 
 @Controller
 public class TransactionsController {
+	public static final Logger logger = LogManager.getLogger(TransactionsController.class.getName());
 	
 	@Autowired
 	private AccountDAO accountDao;
@@ -54,10 +57,9 @@ public class TransactionsController {
 	@RequestMapping(value = "/transactions", method = RequestMethod.GET)
 	public String getTransactions(HttpServletRequest request, Model model) {
 		
-		HttpSession session = request.getSession(true);
-		
+		HttpSession session = request.getSession();
 		if (!SessionUtils.isAuthorized(session)) {
-			model.addAttribute("user", new User());
+			logger.debug("User is not authorized. Redirect to login.jsp");
 			
 			return "redirect:/login";
 		}
@@ -83,7 +85,12 @@ public class TransactionsController {
 	public String addTransaction(HttpServletRequest request,
 			@ModelAttribute("newTransaction") Transaction newTransaction) {
 		
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession();
+		if (!SessionUtils.isAuthorized(session)) {
+			logger.debug("User is not authorized. Redirect to login.jsp");
+			
+			return "redirect:/login";
+		}
 		
 		transactionDao.create(newTransaction);
 		List<Transaction> transactions = SessionUtils.getTransactionsFromSession(session);
@@ -104,7 +111,12 @@ public class TransactionsController {
 	@RequestMapping(value = "/transactions/delete", method = RequestMethod.GET)
 	public String deleteTransaction(HttpServletRequest request, @RequestParam("id") int transactionId) {
 		
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession();
+		if (!SessionUtils.isAuthorized(session)) {
+			logger.debug("User is not authorized. Redirect to login.jsp");
+			
+			return "redirect:/login";
+		}
 		
 		transactionDao.deleteById(transactionId);
 		

@@ -52,10 +52,12 @@ public class UserDAOImpl implements UserDAO {
 	}
 	
 	@Override
-	public void create(User user) {
+	public int create(User user) {
 		Session session = sessionFactory.getCurrentSession();
 		
-		session.save(user);
+		int userId = (Integer) session.save(user);
+		
+		return userId;
 	}
 
 	@Override

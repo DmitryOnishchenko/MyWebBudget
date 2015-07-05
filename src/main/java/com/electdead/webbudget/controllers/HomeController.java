@@ -38,8 +38,7 @@ public class HomeController {
 		
 		logger.debug("Request: home.GET");
 		
-		HttpSession session = request.getSession(true);
-		
+		HttpSession session = request.getSession();
 		if (!SessionUtils.isAuthorized(session)) {
 			logger.debug("User is not authorized. Redirect to login.jsp");
 			

@@ -29,12 +29,15 @@ public abstract class SessionUtils {
 		return session;
 	}
 	
-	public static Boolean isAuthorized(HttpSession session) {
+	public static boolean isAuthorized(HttpSession session) {
 		logger.entry();
 		
-		Boolean authorized = (Boolean) session.getAttribute(AUTH_ATTR_NAME);
+		if (session == null) {
+			logger.exit(false);
+			return false;
+		}
 		
-		if (authorized == null || authorized.equals(false)) {
+		if (session.getAttribute("user") == null) {
 			logger.exit(false);
 			return false;
 		}

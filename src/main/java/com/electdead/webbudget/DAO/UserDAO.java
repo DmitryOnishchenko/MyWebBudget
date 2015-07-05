@@ -8,7 +8,7 @@ public interface UserDAO {
 	public List<User> getAll();
 	public User getById(Integer id);
 	public User getByLogin(String login);
-	public void create(User user);
+	public int create(User user);
 	public void edit(User user);
 	public void delete(Integer id);
 }

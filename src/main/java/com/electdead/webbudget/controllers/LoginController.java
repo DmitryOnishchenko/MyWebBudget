@@ -28,18 +28,14 @@ public class LoginController {
 		
 		logger.debug("Request: login.GET");
 		
-		HttpSession session = request.getSession(true);
-		
-		if (!SessionUtils.isAuthorized(session)) {
-			logger.debug("User is not authorized. Return login.jsp");
-			
+		HttpSession session = request.getSession();
+		if (!SessionUtils.isAuthorized(session)) {	
 			model.addAttribute("user", new User());
 			
 			return "login";
 		}
 		
 		logger.debug("User is authorized (prevent access to login page for authorized users). Redirect to home.jsp");
-		
 		return "redirect:/";
 	}
 	
@@ -48,22 +44,23 @@ public class LoginController {
 		
 		logger.debug("Request: login.POST");
 		
-		logger.debug("Try login");
+		logger.debug("Try login...");
 		if (!tryLogin(user, model)) {
-			logger.debug("Login error. Return login.jsp");
+			logger.debug("Error. Return login.jsp");
 			model.addAttribute("user", new User());
 			
 			return "login";
 		}
 		
+		logger.debug("Success!");
 		HttpSession session = SessionUtils.getNewSession(request);
-		
-		session.setAttribute(SessionUtils.AUTH_ATTR_NAME, true);
 		session.setAttribute("user", user);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug(Joiner.on(' ').join(
-					"All is fine for User: id", user.getUserId(), user.getLogin(),". Redirect to home.jsp"));
+			logger.debug(Joiner.on("").join(
+					"All is fine for User[id: ", user.getUserId(),
+					", login: ", user.getLogin(),
+					"] . Redirect to home.jsp"));
 		}
 		
 		return "redirect:/";
@@ -74,19 +71,15 @@ public class LoginController {
 	public String getRegistration(HttpServletRequest request, Model model) {
 		
 		logger.debug("Request: registration.GET");
-		
-		HttpSession session = request.getSession(true);
-		
+				
+		HttpSession session = request.getSession();
 		if (!SessionUtils.isAuthorized(session)) {
-			logger.debug("User is not authorized. Return login.jsp");
-			
 			model.addAttribute("user", new User());
 			
 			return "registration";
 		}
 		
 		logger.debug("User is authorized (prevent access to registration page for authorized users). Redirect to home.jsp");
-		
 		return "redirect:/";
 	}
 	
@@ -94,29 +87,30 @@ public class LoginController {
 	public String register(@ModelAttribute("user") User user, HttpServletRequest request, Model model) {
 		
 		logger.debug("Request: registration.POST");
-		
 		if (logger.isDebugEnabled()) {
-			logger.debug(Joiner.on(' ').join("Try to find user:", user, "in DB"));			
+			logger.debug(Joiner.on("").join("Try to find user: [", user.getLogin(), "] in DB"));			
 		}
 		
 		User existingUser = userDao.getByLogin(user.getLogin());
 		
 		if (existingUser != null) {
 			logger.debug("User is already exists. Return registration.jsp");
+			model.addAttribute("user", new User());
 			model.addAttribute("usernameError", true);
 			
 			return "registration";
 		}
 		
+		int userId = userDao.create(user);
+		user.setUserId(userId);
+		
 		HttpSession session = SessionUtils.getNewSession(request);
-		
-		userDao.create(user);
-		
-		session.setAttribute(SessionUtils.AUTH_ATTR_NAME, true);
 		session.setAttribute("user", user);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug(Joiner.on(' ').join("Created new User: ", user, ". Redirect to home.jsp"));
+			logger.debug(Joiner.on("").join(
+					"Created new User:[id: ", user.getUserId(),
+					", login: ", user.getLogin(), "]. Redirect to home.jsp"));
 		}
 		
 		return "redirect:/";
@@ -128,8 +122,7 @@ public class LoginController {
 		logger.debug("Request: logout.GET");
 		logger.debug("Invalidate session. Redirect to login.jsp");
 		
-		HttpSession session = request.getSession(true);
-		
+		HttpSession session = request.getSession();
 		if (session != null) {
 			session.invalidate();
 		}

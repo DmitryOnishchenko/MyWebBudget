@@ -31,11 +31,9 @@ public class AccountsController {
 		
 		logger.debug("Request: accounts.GET");
 		
-		HttpSession session = request.getSession(true);
-		
+		HttpSession session = request.getSession();
 		if (!SessionUtils.isAuthorized(session)) {
 			logger.debug("User is not authorized. Redirect to login.jsp");
-			model.addAttribute("user", new User());
 			
 			return "redirect:/login";
 		}
@@ -53,7 +51,12 @@ public class AccountsController {
 		
 		logger.debug("Request: accounts.POST");
 		
-		HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession();
+		if (!SessionUtils.isAuthorized(session)) {
+			logger.debug("User is not authorized. Redirect to login.jsp");
+			
+			return "redirect:/login";
+		}
 		
 		User user = (User) session.getAttribute("user");
 		
