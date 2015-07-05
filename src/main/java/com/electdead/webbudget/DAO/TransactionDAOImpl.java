@@ -77,14 +77,12 @@ public class TransactionDAOImpl implements TransactionDAO {
 	}
 
 	@Override
-	public Transaction deleteById(int id) {
+	public void deleteById(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		
 		Transaction transaction = (Transaction) session.get(Transaction.class, id);
 		
 		session.delete(transaction);
-		
-		return transaction;
 	}
 
 }

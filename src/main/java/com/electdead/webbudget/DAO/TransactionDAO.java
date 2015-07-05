@@ -15,5 +15,5 @@ public interface TransactionDAO {
     public Transaction getById(Integer id);
     public void create(Transaction transaction);
     public void edit(Transaction transaction);
-    public Transaction deleteById(int id);
+    public void deleteById(int id);
 }

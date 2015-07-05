@@ -98,6 +98,7 @@
 			</div>
 		</div>
 
+		<c:url var="deleteUrl" value="/transactions/delete?id=" />
 		<div id="allTransactions" class="">
 			<h1>Last transactions</h1>
 			<table>
@@ -120,7 +121,6 @@
 								<td colspan="4" class="inputColor">
 									<h3><c:out value="${transaction.comment}"></c:out></h3>
 								</td>
-								<c:url var="deleteUrl" value="/transactions/delete?id=" />
 								<td style="width: 30px"><a href="${deleteUrl}${transaction.transactionId}"><img src="/mywebbudget.com/resources/img/delete_small.png"
 									width="18px" height="18px"></a>
 								</td>

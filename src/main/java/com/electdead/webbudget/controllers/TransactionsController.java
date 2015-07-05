@@ -91,11 +91,12 @@ public class TransactionsController {
 		
 		Account account = newTransaction.getAccount();
 		double currentMoney = account.getMoney();
-		account.setMoney(currentMoney + newTransaction.getAmount());
+		double transactionAmount = newTransaction.getAmount();
+		account.setMoney(currentMoney + transactionAmount); 
 		accountDao.save(account);
 		
 		double currentBalance = (Double) session.getAttribute("totalBalance");
-		session.setAttribute("totalBalance", currentBalance + newTransaction.getAmount());
+		session.setAttribute("totalBalance", currentBalance + transactionAmount);
 		
 		return "transactions";
 	}
@@ -103,25 +104,25 @@ public class TransactionsController {
 	@RequestMapping(value = "/transactions/delete", method = RequestMethod.GET)
 	public String deleteTransaction(HttpServletRequest request, @RequestParam("id") int transactionId) {
 		
-		Transaction transaction = transactionDao.deleteById(transactionId);
-		
 		HttpSession session = request.getSession(true);
+		
+		transactionDao.deleteById(transactionId);
+		
 		List<Transaction> transactions = SessionUtils.getTransactionsFromSession(session);
+		Transaction transaction = SessionUtils.findTransactionInSession(session, transactionId);
 		transactions.remove(transaction);
 		
 		Account account = transaction.getAccount();
 		double currentMoney = account.getMoney();
 		double transactionAmount = transaction.getAmount() * -1;
-		double total = currentMoney + transactionAmount;
+		double accountTotal = currentMoney + transactionAmount;
 		
-		account.setMoney(total);
+		account.setMoney(accountTotal);
 		
 		accountDao.save(account);
 		
 		double currentBalance = (Double) session.getAttribute("totalBalance");
 		session.setAttribute("totalBalance", currentBalance + transactionAmount);
-		
-		session.setAttribute("transactions", transactions);
 		
 		return "redirect:/transactions";
 	}

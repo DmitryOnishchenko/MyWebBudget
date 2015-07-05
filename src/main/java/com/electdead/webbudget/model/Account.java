@@ -1,5 +1,7 @@
 package com.electdead.webbudget.model;
 
+import java.util.Objects;
+
 import com.google.common.base.Joiner;
 
 public class Account {
@@ -39,6 +41,24 @@ public class Account {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public boolean equals(Object obj) {
+    	if (this == obj) {
+    		return true;
+    	}
+    	
+    	if (obj == null) {
+    		return false;
+    	}
+    	
+    	if (getClass() != obj.getClass()) {
+    		return false;
+    	}
+    	
+    	Account other = (Account) obj;
+    	
+    	return Objects.equals(accountId, other.accountId);
+    }
 	
 	public String toString() {
 		return Joiner.on("").join("Account.class [accountId: ", accountId,

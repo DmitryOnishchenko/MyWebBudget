@@ -104,4 +104,19 @@ public abstract class SessionUtils {
 		logger.log(Level.ERROR, exceptionMessage);
 		throw new Exception(exceptionMessage);
 	}
+	
+	public static Transaction findTransactionInSession(HttpSession session, int transactionId) {
+			logger.trace("SESSION: Try to find transaction with id:" + transactionId);
+			@SuppressWarnings("unchecked")
+			List<Transaction> transactions = (List<Transaction>) session.getAttribute("transactions");
+			
+			for (Transaction transaction : transactions) {
+				if (transaction.getTransactionId() == transactionId) {
+					logger.exit(transaction);
+					return transaction;
+				}
+			}
+			
+			return null;
+		}
 }
